@@ -3,11 +3,11 @@
 # though: using the remote backend, Terraform will execute remotely in Terraform
 # Cloud where your token is already securely stored in your workspace!
 
-variable "provider_token" {
+variable "my_token" {
   type = string
   sensitive = true
 }
 
 provider "fakewebservices" {
-  token = var.provider_token
+  token = var.my_token
 }

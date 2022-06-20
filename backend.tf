@@ -1,13 +1,11 @@
 # The block below configures Terraform to use the 'remote' backend with Terraform Cloud.
 # For more information, see https://www.terraform.io/docs/backends/types/remote.html
 terraform {
-  backend "remote" {
-    organization = "{{ORGANIZATION_NAME}}"
+  cloud {
+    organization = "test-yiyang-li"
 
     workspaces {
-      name = "{{WORKSPACE_NAME}}"
+      name = "test-cli"
     }
   }
-
-  required_version = ">= 0.14.0"
 }
