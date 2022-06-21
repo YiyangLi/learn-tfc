@@ -1,7 +1,3 @@
-data "http" "ip" {
-  url = "https://ifconfig.me"
-}
-
 data "aws_vpc" "default" {
   default = true
 }
