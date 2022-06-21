@@ -4,10 +4,11 @@
 # Cloud where your token is already securely stored in your workspace!
 
 variable "my_token" {
-  type = string
+  type      = string
   sensitive = true
 }
 
-provider "fakewebservices" {
-  token = var.my_token
+
+provider "aws" {
+  region = "us-west-2"
 }
