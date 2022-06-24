@@ -12,6 +12,16 @@ terraform {
       source  = "hashicorp/aws"
       version = ">= 4.6"
     }
+
+    vault = {
+      source  = "hashicorp/vault"
+      version = "~> 2.0"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
   }
 
   required_version = ">= 1.1.0"

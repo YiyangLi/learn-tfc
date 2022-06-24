@@ -30,7 +30,7 @@ resource "aws_instance" "ec2" {
     environment = var.environment
   }
 
-  subnet_id = tolist(data.aws_subnet_ids.all.ids)[0]
+  subnet_id = tolist(data.aws_subnets.all.ids)[0]
 
   key_name                = var.ec2_key
   monitoring              = true

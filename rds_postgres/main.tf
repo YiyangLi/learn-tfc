@@ -1,4 +1,4 @@
-module "db" {
+module "rds" {
   source = "terraform-aws-modules/rds/aws"
   
   engine                = "postgres"
@@ -16,12 +16,11 @@ module "db" {
   identifier          = var.database_name
   port                = 5432
   username            = "superuser"
-  password            = random_password.superuser.result
   
   multi_az               = false
   create_db_subnet_group = true
   db_subnet_group_name   = join("-", ["rds", var.environment, var.database_name, "subnet-group"])
-  subnet_ids             = tolist(data.aws_subnet_ids.all.ids)
+  subnet_ids             = tolist(data.aws_subnets.all.ids)
   vpc_security_group_ids = [module.rds_sg.security_group_id]
 
   maintenance_window          = "Mon:00:00-Mon:03:00"
@@ -57,7 +56,6 @@ module "db" {
 
   depends_on = [
     module.rds_sg,
-    random_password.superuser,
     random_password.readonly,
     random_password.eng
   ]

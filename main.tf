@@ -76,3 +76,12 @@ module "metabase_postgres" {
   project                  = join("-", [local.user, "metabase"])
   ingress_with_cidr_blocks = []
 }
+
+module "airbyte_destination_postgres" {
+  source = "./rds_postgres"
+
+  environment              = local.environment
+  database_name            = "destination"
+  project                  = join("-", [local.user, "airbyte_destination_postgres"])
+  ingress_with_cidr_blocks = []
+}
