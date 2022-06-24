@@ -1,3 +1,9 @@
+locals {
+  sg_tags = {
+    project     = join("-", [var.project, "sg"])
+    environment = var.environment
+  }
+}
 module "dev_ssh_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
@@ -7,6 +13,8 @@ module "dev_ssh_sg" {
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = ["ssh-tcp"]
+
+  tags = local.sg_tags
 }
 
 module "ec2_sg" {
@@ -20,4 +28,6 @@ module "ec2_sg" {
   ingress_rules            = ["http-80-tcp", "https-443-tcp","all-icmp"]
   egress_rules             = ["all-all"]
   ingress_with_cidr_blocks = var.ingress_with_cidr_blocks
+
+  tags = local.sg_tags
 }

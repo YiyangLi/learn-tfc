@@ -67,3 +67,12 @@ module "vault" {
     }
   ]
 }
+
+module "metabase_postgres" {
+  source = "./rds_postgres"
+
+  environment              = local.environment
+  database_name            = "metabase"
+  project                  = join("-", [local.user, "metabase"])
+  ingress_with_cidr_blocks = []
+}
