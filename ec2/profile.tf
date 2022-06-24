@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2_role" {
-  name = "ec2_role_hello_world"
+  name = join("-", ["ec2-role", var.project, var.environment])
 
   assume_role_policy = <<EOF
 {
@@ -17,12 +17,13 @@ resource "aws_iam_role" "ec2_role" {
 EOF
 
   tags = {
-    project = "hello-world"
+    project     = var.project
+    environment = var.environment
   }
 }
 
 resource "aws_iam_instance_profile" "ec2_profile" {
-  name = "ec2_profile_hello_world"
+  name = join("-", ["ec2-profile", var.project, var.environment])
   role = aws_iam_role.ec2_role.name
   depends_on = [
     aws_iam_role.ec2_role
@@ -30,7 +31,7 @@ resource "aws_iam_instance_profile" "ec2_profile" {
 }
 
 resource "aws_iam_role_policy" "ec2_policy" {
-  name = "ec2_policy"
+  name = join("-", ["ec2-policy", var.project, var.environment])
   role = aws_iam_role.ec2_role.id
 
   policy = <<EOF
