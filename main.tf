@@ -9,6 +9,7 @@ module "airbyte" {
   instance_type = "c5.2xlarge"
   ec2_key       = local.ec2_key
   environment   = local.environment
+  // it's NOT behind a VPC, please don't run customers data here
   ingress_with_cidr_blocks = [{
       from_port   = 8000
       to_port     = 8000
@@ -33,12 +34,30 @@ module "airbyte" {
   ]
 }
 
+module "metabase" {
+  source        = "./ec2"
+  project       = join("-", [local.user, "metabase"])
+  instance_type = "m5.2xlarge"
+  ec2_key       = local.ec2_key
+  environment   = local.environment
+  // dev only, it's NOT behind VPC, please don't run customers' data here
+  ingress_with_cidr_blocks = [{
+      from_port   = 3000
+      to_port     = 3000
+      protocol    = "tcp"
+      description = "the metabase server"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+}
+
 module "vault" {
   source        = "./ec2"
   project       = join("-", [local.user, "vault"])
   instance_type = "t3.micro"
   ec2_key       = local.ec2_key
   environment   = local.environment
+  // it's NOT behind a VPC, please don't put customers' credentails here
   ingress_with_cidr_blocks = [{
       from_port   = 8200
       to_port     = 8200
